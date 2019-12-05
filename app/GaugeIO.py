@@ -65,7 +65,7 @@ def record(portName):
 
 def addToFile(file, content):
     with open(file, 'a') as fo:
-	fo.write('{}\n'.format(content)) 
+        fo.write('{}\n'.format(content))
 
 
 record(serialDevice)
