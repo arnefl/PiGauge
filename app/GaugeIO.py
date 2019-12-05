@@ -16,55 +16,56 @@ dataTimeZone = timezone('Etc/GMT-1') # Timezone is assumed sampled in
 
 
 def record(portName):
-	# Make serial object
-	ser = Serial(portName, 9600, 8, 'N', 1, timeout=1)
+    # Make serial object
+    ser = Serial(portName, 9600, 8, 'N', 1, timeout=1)
 
-	# Wait for initial read before proceeding
-	timeStart = time()
-	while ser.inWaiting() < 6:
-		if time() - timeStart > maxWait:
-			raise ValueError('Max initial wait exceeded.')
-		sleep(0.1)
+    # Wait for initial read before proceeding
+    timeStart = time()
+    while ser.inWaiting() < 6:
+        if time() - timeStart > maxWait:
+            raise ValueError('Max initial wait exceeded.')
+        sleep(0.1)
 
-	# Main loop for data recording
-	while 1:
-		try:
-			if ser.inWaiting() > 5:
-				# Get all new data
-				newData = ser.read(ser.inWaiting()).decode('utf-8')
+    # Main loop for data recording
+    while 1:
+        try:
+            if ser.inWaiting() > 5:
+                # Get all new data
+                newData = ser.read(ser.inWaiting()).decode('utf-8')
 
-				# Search for latest complete recording
-				idx = 1
-				while idx < 14:
-					if newData[-idx] == 'R' and -idx + 5 < 0:
-						curLevel = newData[-idx + 1 : -idx + 5]
-						break
-					idx += 1
+                # Search for latest complete recording
+                idx = 1
+                while idx < 14:
+                    if newData[-idx] == 'R' and -idx + 5 < 0:
+                        curLevel = newData[-idx + 1 : -idx + 5]
+                        break
 
-				# Convert from mm to m
-				curLevel = int(curLevel)/1000
+                    idx += 1
 
-				# Pretty print
-				now = datetime.now(dataTimeZone)
-				print('Time: {}, Level: {} m'.format(now.strftime('%Y/%m/%d %H:%M:%S'), curLevel), end='\r')
+                # Convert from mm to m
+                curLevel = int(curLevel)/1000
 
-				# Log to file
-				dataFile = join(dataFolder, '{}.txt'.format(now.strftime('%Y%m%d')))
-				addToFile(dataFile, '{}, {}'.format(now, curLevel))
+                # Pretty print
+                now = datetime.now(dataTimeZone)
+                print('Time: {}, Level: {} m'.format(now.strftime('%Y/%m/%d %H:%M:%S'), curLevel), end='\r')
 
-		except ValueError:
-			continue
+                # Log to file
+                dataFile = join(dataFolder, '{}.txt'.format(now.strftime('%Y%m%d')))
+                addToFile(dataFile, '{}, {}'.format(now, curLevel))
 
-		# Sleep till a new sample is called for by samplingResolution parameter
-		timeToSleep = int(ceil(time()/samplingResolution))*samplingResolution - time()
-		sleep(timeToSleep)
+        except ValueError:
+            continue
 
-	ser.close()
+        # Sleep till a new sample is called for by samplingResolution parameter
+        timeToSleep = int(ceil(time()/samplingResolution))*samplingResolution - time()
+        sleep(timeToSleep)
+
+    ser.close()
 
 
 def addToFile(file, content):
-	with open(file, 'a') as fo:
-		fo.write('{}\n'.format(content)) 
+    with open(file, 'a') as fo:
+	fo.write('{}\n'.format(content)) 
 
 
 record(serialDevice)
