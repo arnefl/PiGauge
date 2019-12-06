@@ -3,6 +3,7 @@ import json
 
 import requests as rq
 
+
 def post_regobs(data_json):
     # Add secret API key to post
     data = json.dumps({'apikey': 'njskdfgl834q3q4bt3sd', 'data': json.loads(data_json)})
