@@ -8,7 +8,8 @@ sampling:
 
 # Data raporting configuration
 reporting:
-  resolution: 10    # Minute window for each reported observation
+  resolution: 10                      # Minute window for each reported observation
+  last_report: '2019-12-01 00:00:00'  # Datetime previous reported data point
 
 # Nessie API config
 api:

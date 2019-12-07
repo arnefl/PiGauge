@@ -63,10 +63,7 @@ if data.shape[0] > 0:
     jsonData = data.to_json(orient='records')
     post_regobs(jsonData)
 
-    # Update log
-    with open('ProcessNewDataLog.txt', 'w') as fo:
-        newest_date = data.date.max()
-        if newest_date is np.nan:
-            newest_date = 0
-        
-        fo.write(newest_date)
+    # Update config with last reporting date
+    newest_date = data.date.max()
+    if isinstance(newest_date, str):
+        config['reporting']['last_report'] = newest_date

@@ -7,10 +7,19 @@ class Configuration:
 	"""
 	def __init__(self):
 		# Load configuration file
-		with open('../config.yml', 'r') as yamlfile:
+		self.config_file = '../config.yml'
+		with open(self.config_file, 'r') as yamlfile:
 			self.config = yaml.full_load(yamlfile)
 
 
 	# Python magic for class to act as dict
 	def __getitem__(self, key):
 		return self.config[key]
+
+	def __setitem__(self, key, value):
+		# Update current state
+		self.config[key] = value
+
+		# Update configuration file
+		with open(self.config_file, 'w') as yamlfile:
+			yaml.dump(self.config, yamlfile)
