@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 
 from os.path import join
+from pytz import timezone
 from NessieAPI import post_regobs
 from datetime import date, timedelta, datetime
 from Configuration import Configuration
@@ -34,6 +35,11 @@ def GenerateMeans(date, lower_bound):
     
     # Drop if already recorded
     df = df[df.date > lower_bound]
+
+    # Drop if it's the current 10-min bin
+    now = datetime.now(timezone(config['sampling']['time_zone']))
+    upper_bound = now.strftime('%Y-%m-%d %H:%M:00')
+    df = df[df.date < upper_bound]
 
     return df
 
