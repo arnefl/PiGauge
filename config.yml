@@ -1,4 +1,15 @@
+# Data sampling configuration
 sampling:
-  resolution: 10
+  serial_device: '/dev/ttyS0'
+  resolution: 10                # How many seconds between each sample
+  data_folder: 'data'           # Folder to store data files in
+  time_zone: 'Etc/GMT-1'        # Time zone. Pytz format.
+
+# Data raporting configuration
+reporting:
+  resolution: 10    # Minute window for each reported observation
+
+# Nessie API config
 api:
-  apikey: ''
+  gauge_id: 73      # Gauge ID in Nessie
+  apikey: ''        # Secret API key
