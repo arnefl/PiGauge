@@ -3,10 +3,16 @@ import json
 
 import requests as rq
 
+from Configuration import Configuration
+
+
+# Load configuration
+config = Configuration()
+
 
 def post_regobs(data_json):
     # Add secret API key to post
-    data = json.dumps({'apikey': 'njskdfgl834q3q4bt3sd', 'data': json.loads(data_json)})
+    data = json.dumps({'apikey': config['api']['apikey'], 'data': json.loads(data_json)})
 
     request_url = 'https://api.nokken.net/v0/regobs'
 
