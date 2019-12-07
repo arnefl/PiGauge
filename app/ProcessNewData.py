@@ -65,3 +65,4 @@ if data.shape[0] > 0:
     newest_date = data.date.max()
     if isinstance(newest_date, str):
         config['reporting']['last_report'] = newest_date
+        config.save()
