@@ -39,7 +39,7 @@ def GenerateMeans(date, lower_bound):
 
     # Drop if it's the current 10-min bin
     now = datetime.now(time_zone)
-    td = timedelta(minutes = int(now.strftime('%M')[1]))
+    td = timedelta(minutes = int(now.strftime('%M')[1]), )
     upper_bound = (now - td).strftime('%Y-%m-%d %H:%M:00')
     df = df[df.date < upper_bound]
 
@@ -51,6 +51,7 @@ last_date = config['reporting']['last_report']
 
 # Get list of days that must be processed
 sdate = datetime.strptime(last_date, '%Y-%m-%d %H:%M:%S')
+sdate.replace(tzinfo=time_zone)
 ndays = (datetime.now(time_zone) - sdate).days + 1
 days = [(sdate+timedelta(days=i)).strftime('%Y%m%d') for i in range(ndays)]
 
