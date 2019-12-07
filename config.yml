@@ -1,6 +1,7 @@
 # Data sampling configuration
 sampling:
   serial_device: '/dev/ttyS0'
+  ground_to_device: 5000        # mm from sensor surface to ground
   resolution: 10                # How many seconds between each sample
   data_folder: 'data'           # Folder to store data files in
   time_zone: 'Etc/GMT-1'        # Time zone. Pytz format.

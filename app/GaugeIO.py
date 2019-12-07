@@ -42,8 +42,8 @@ def record(port_name):
 
                     idx += 1
 
-                # Convert from mm to m
-                curLevel = int(curLevel)/1000
+                # Invert height, and convert from mm to m
+                curLevel = (config['sampling']['ground_to_device'] - int(curLevel))/1000
 
                 # Pretty print
                 now = datetime.now(time_zone)
