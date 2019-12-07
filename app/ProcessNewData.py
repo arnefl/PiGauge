@@ -53,7 +53,13 @@ last_date = config['reporting']['last_report']
 sdate = datetime.strptime(last_date, '%Y-%m-%d %H:%M:%S')
 sdate = sdate.replace(tzinfo=time_zone)
 now = datetime.now(time_zone)
-ndays = (now - sdate).days + 1
+diff = now - sdate
+ndays = diff.days + 1
+
+# Check if we've passed over midnight
+if diff.days == 0 and not sdate.day == (now + diff).day:
+    ndays += 1
+
 days = [(sdate+timedelta(days=i)).strftime('%Y%m%d') for i in range(ndays)]
 
 # For each day generate 10-min means
