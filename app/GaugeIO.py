@@ -4,25 +4,25 @@ from time import time, sleep
 from serial import Serial
 from os.path import join
 from datetime import datetime
+from Configuration import Configuration
 
+
+# Load configuration
+config = Configuration()
 
 # Path to sensor
-maxWait = 3 # Seconds to wait for first sample
-serialDevice = '/dev/ttyS0'
-samplingResolution = 10 # Seconds
-dataResolution = 10*60 # Seconds
-dataFolder = 'data' # Folder to store daily raw data files in
-dataTimeZone = timezone('Etc/GMT-1') # Timezone is assumed sampled in
+max_wait = 3 # Seconds to wait for first sample
+time_zone = timezone(config['sampling']['time_zone'])
 
 
-def record(portName):
+def record(port_name):
     # Make serial object
-    ser = Serial(portName, 9600, 8, 'N', 1, timeout=1)
+    ser = Serial(port_name, 9600, 8, 'N', 1, timeout=1)
 
     # Wait for initial read before proceeding
-    timeStart = time()
+    time_start = time()
     while ser.inWaiting() < 6:
-        if time() - timeStart > maxWait:
+        if time() - time_start > max_wait:
             raise ValueError('Max initial wait exceeded.')
         sleep(0.1)
 
@@ -46,18 +46,19 @@ def record(portName):
                 curLevel = int(curLevel)/1000
 
                 # Pretty print
-                now = datetime.now(dataTimeZone)
+                now = datetime.now(time_zone)
                 print('Time: {}, Level: {} m'.format(now.strftime('%Y/%m/%d %H:%M:%S'), curLevel), end='\r')
 
                 # Log to file
-                dataFile = join(dataFolder, '{}.txt'.format(now.strftime('%Y%m%d')))
+                dataFile = join(config['sampling']['data_folder'], '{}.txt'.format(now.strftime('%Y%m%d')))
                 addToFile(dataFile, '{}, {}'.format(now, curLevel))
 
         except ValueError:
             continue
 
-        # Sleep till a new sample is called for by samplingResolution parameter
-        timeToSleep = int(ceil(time()/samplingResolution))*samplingResolution - time()
+        # Sleep till next time to sample
+        sres = config['sampling']['resolution']
+        timeToSleep = int(ceil(time()/sres))*sres - time()
         sleep(timeToSleep)
 
     ser.close()
@@ -68,4 +69,4 @@ def addToFile(file, content):
         fo.write('{}\n'.format(content))
 
 
-record(serialDevice)
+record(config['sampling']['serial_device'])
