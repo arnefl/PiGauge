@@ -1,15 +1,23 @@
 import numpy as np
 import pandas as pd
 
+from os.path import join
 from NessieAPI import post_regobs
 from datetime import date, timedelta, datetime
+from Configuration import Configuration
 
 
-# Function generate daily 10-min means
+# Load configuration
+config = Configuration()
+
+
+# Function generate daily means
 def GenerateMeans(date, lower_bound):
     # Import data
-    df = pd.read_csv('../docs/data/20191205.txt', header=None)
-    df = pd.read_csv('../docs/data/{}.txt'.format(date), header=None)
+    df = pd.read_csv(join('../', 
+                         config['sampling']['data_folder'], 
+                         '{}.txt'.format(date)), 
+                     header=None)
     df.columns = ['date', 'level']
 
     # Parse date
@@ -18,12 +26,12 @@ def GenerateMeans(date, lower_bound):
     # Resample to desired resolution
     df.index = df['date']
     df = df.drop(columns=['date'])
-    df = df.resample('10T').mean()
+    df = df.resample('{}T'.format(config['reporting']['resolution'])).mean()
 
     # Add columns for NessieAPI and encode to JSON
     df['date'] = df.index
     df['date'] = df['date'].dt.strftime('%Y-%m-%d %H:%M:%S')
-    df['gauge_id'] = 73
+    df['gauge_id'] = config['api']['gauge_id']
     
     # Drop if already recorded
     df = df[df.date > lower_bound]
