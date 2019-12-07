@@ -20,6 +20,7 @@ class Configuration:
 		# Update current state
 		self.config[key] = value
 
+	def save(self):
 		# Update configuration file
 		with open(self.config_file, 'w') as yamlfile:
 			yaml.dump(self.config, yamlfile)
