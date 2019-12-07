@@ -38,8 +38,8 @@ def GenerateMeans(date, lower_bound):
 
     # Drop if it's the current 10-min bin
     now = datetime.now(timezone(config['sampling']['time_zone']))
-    upper_bound = (now - int(now.strftime('%M')[1])*60).strftime('%Y-%m-%d %H:%M:00')
-    print('upper_bound')
+    td = timedelta(minutes = int(now.strftime('%M')[1]))
+    upper_bound = (now - td).strftime('%Y-%m-%d %H:%M:00')
     df = df[df.date < upper_bound]
 
     return df
