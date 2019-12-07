@@ -14,8 +14,7 @@ config = Configuration()
 # Function generate daily means
 def GenerateMeans(date, lower_bound):
     # Import data
-    df = pd.read_csv(join('../', 
-                         config['sampling']['data_folder'], 
+    df = pd.read_csv(join(config['sampling']['data_folder'], 
                          '{}.txt'.format(date)), 
                      header=None)
     df.columns = ['date', 'level']
