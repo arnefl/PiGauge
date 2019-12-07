@@ -1,16 +1,28 @@
 # PiGauge
+PiGauge is a project to remotely monitor the water level of rivers and report it to the Nessie database. 
 
-## Installation
-1. Setting up a Raspberry Pi 4b
-1.1 Install NOOBS on a Raspberry Pi4b. Name your user `pi`
-1.2 /dev/ttyS0 is owned by root and dialout, give access to our user.
-  ```
-  sudo usermod -a -G dialout $USER
-  ```
-  Note: Sometimes you might end up in a race condition with the system. In that case, the group owner will be tty. Sudo raspi-config and disable, reboot, enable, and reboot helps.
-  
-  Test with minicom, if you'd like:
-  ```
-  minicom -b 9600 -o -D /dev/ttyS0
-  ```
 
+## Hardware:
+- Raspberry Pi 4 Model B, 2GB RAM
+- MaxBotix MB7380 HRXL-MaxSonar-WRT
+- SIM7600E-H 4G
+- Buck converter DC 12V to 5V 10A
+- TODO: Charge controller
+- TODO: Solar panel
+- TODO: Battery
+- TODO: Locker
+
+
+## Software
+- NOOBS 3.2.1
+- Python 3.7
+	- NumPy, Pandas, PyYAML, pytz, pySerial, datetime, Requests
+- OpenSSH server
+- TODO: Networking
+
+See docs/setup.md for details on the build.
+
+
+## Setting up a new gauge
+1. Update configuration, config.yml.
+2. 
