@@ -40,8 +40,7 @@ def GenerateMeans(date, lower_bound):
 
 
 # Get last time processed
-with open('ProcessNewDataLog.txt', 'r') as fo:
-    last_date = fo.read()
+last_date = config['reporting']['last_report']
 
 # Get list of days that must be processed
 sdate = datetime.strptime(last_date, '%Y-%m-%d %H:%M:%S')
