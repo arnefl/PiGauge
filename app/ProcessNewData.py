@@ -51,10 +51,8 @@ last_date = config['reporting']['last_report']
 
 # Get list of days that must be processed
 sdate = datetime.strptime(last_date, '%Y-%m-%d %H:%M:%S')
-sdate.replace(tzinfo=time_zone)
+sdate = sdate.replace(tzinfo=time_zone)
 now = datetime.now(time_zone)
-print(sdate)
-print(now)
 ndays = (now - sdate).days + 1
 days = [(sdate+timedelta(days=i)).strftime('%Y%m%d') for i in range(ndays)]
 
