@@ -10,6 +10,7 @@ from Configuration import Configuration
 
 # Load configuration
 config = Configuration()
+time_zone = timezone(config['sampling']['time_zone'])
 
 
 # Function generate daily means
@@ -37,7 +38,7 @@ def GenerateMeans(date, lower_bound):
     df = df[df.date > lower_bound]
 
     # Drop if it's the current 10-min bin
-    now = datetime.now(timezone(config['sampling']['time_zone']))
+    now = datetime.now(time_zone)
     td = timedelta(minutes = int(now.strftime('%M')[1]))
     upper_bound = (now - td).strftime('%Y-%m-%d %H:%M:00')
     df = df[df.date < upper_bound]
@@ -50,7 +51,7 @@ last_date = config['reporting']['last_report']
 
 # Get list of days that must be processed
 sdate = datetime.strptime(last_date, '%Y-%m-%d %H:%M:%S')
-ndays = (datetime.now() - sdate).days + 1
+ndays = (datetime.now(time_zone) - sdate).days + 1
 days = [(sdate+timedelta(days=i)).strftime('%Y%m%d') for i in range(ndays)]
 
 # For each day generate 10-min means
