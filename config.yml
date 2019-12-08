@@ -10,6 +10,8 @@ sampling:
 reporting:
   resolution: 10                      # Minute window for each reported observation
   last_report: '2019-12-01 00:00:00'  # Datetime previous reported data point
+  connection: 'lan'                   # Pi connection used. lan, or serial
+  serial_device: ''                   # If connection serial, give adr to device
 
 # Nessie API config
 api:
