@@ -17,6 +17,7 @@
 
 ### Raspberry Pi
 1. Pin Layout
+
 | Attach to | Function | Pin # | Pin # | Function | Attach to  |
 |-----------|----------|:-----:|:-----:|----------|------------|
 | Fan V+    | 3V3      |   1   |   2   | 5V       | PSU V+     |
