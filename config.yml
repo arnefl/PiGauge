@@ -1,6 +1,6 @@
 # Data sampling configuration
 sampling:
-  serial_device: '/dev/ttyS0'
+  serial_device: '/dev/ttyAMA1'
   ground_to_device: 5000        # mm from sensor surface to ground
   resolution: 10                # How many seconds between each sample
   data_folder: 'data'           # Folder to store data files in
@@ -17,3 +17,7 @@ reporting:
 api:
   gauge_id: 73      # Gauge ID in Nessie
   apikey: ''        # Secret API key
+
+# Sim
+cellular:
+  serial_device: '/dev/ttyS0'

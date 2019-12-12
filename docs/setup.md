@@ -13,9 +13,14 @@
 	```
 	enable_uart=1
 	dtoverlay=uart4
-	dtoverlay=pi3-disable-bt
-	dtoverlay=pi3-miniuart-bt
+	dtoverlay=pi4-disable-bt
+	dtoverlay=pi4-miniuart-bt
 	```
+	Check that SPI is disabled (has conflict with uart4):
+	```
+	dtparam=spi=off
+	```
+
 4. Serial devices are owned by root and dialout, give access to our user.
  	```
  	sudo usermod -a -G dialout $USER
@@ -25,7 +30,7 @@
 Test connection to sensor:
 	```
 	sudo apt-get install minicom
-	minicom -b 9600 -o -D /dev/ttyS0
+	minicom -b 9600 -o -D /dev/ttyAMA2
 	```
 
 
@@ -37,18 +42,18 @@ Test connection to sensor:
 | Attach to | Function | Pin # | Pin # | Function | Attach to  |
 |-----------|----------|:-----:|:-----:|----------|------------|
 | Fan V+    | 3V3      |   1   |   2   | 5V       | PSU V+     |
-|           |          |   3   |   4   | 5V       | Sensor V+  |
-|           |          |   5   |   6   | GND      | Sensor GND |
-|           |          |   7   |   8   | TXD1     |            |
-| Fan GND   | GND      |   9   |   10  | RXD1     | Sensor RX  |
+|           |          |   3   |   4   | 5V       | Sim V+     |
+|           |          |   5   |   6   | GND      | Sim GND    |
+|           |          |   7   |   8   | TXD1     | Sim RXD    |
+| Fan GND   | GND      |   9   |   10  | RXD1     | Sim TXD    |
 |           |          |   11  |   12  |          |            |
-|           |          |   13  |   14  | GND      | PSU GND    |
+|           |          |   13  |   14  | GND      | Sim GND    |
 |           |          |   15  |   16  |          |            |
-| Sim V+    | 3V3      |   17  |   18  |          |            |
-|           |          |   19  |   20  | GND      | Sim GND    |
-| Sim RX    | RXD4     |   21  |   22  |          |            |
-|           |          |   23  |   24  | TXD4     | Sim TX     |
-|           | GND      |   25  |   26  |          |            |
+| Sensor V+ | 3V3      |   17  |   18  |          |            |
+|           |          |   19  |   20  | GND      | PSU GND    |
+| Sensor RX | RXD4     |   21  |   22  |          |            |
+|           |          |   23  |   24  | TXD4     |            |
+| Sensor GND| GND      |   25  |   26  |          |            |
 |           |          |   27  |   28  |          |            |
 |           |          |   29  |   30  | GND      |            |
 |           |          |   31  |   32  |          |            |
