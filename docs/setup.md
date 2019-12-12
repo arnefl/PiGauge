@@ -30,7 +30,7 @@
 Test connection to sensor:
 	```
 	sudo apt-get install minicom
-	minicom -b 9600 -o -D /dev/ttyAMA2
+	minicom -b 9600 -o -D /dev/ttyAMA1
 	```
 
 
@@ -47,7 +47,7 @@ Test connection to sensor:
 |           |          |   7   |   8   | TXD1     | Sim RXD    |
 | Fan GND   | GND      |   9   |   10  | RXD1     | Sim TXD    |
 |           |          |   11  |   12  |          |            |
-|           |          |   13  |   14  | GND      | Sim GND    |
+|           |          |   13  |   14  |          |            |
 |           |          |   15  |   16  |          |            |
 | Sensor V+ | 3V3      |   17  |   18  |          |            |
 |           |          |   19  |   20  | GND      | PSU GND    |
